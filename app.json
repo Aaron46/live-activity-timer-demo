@@ -13,7 +13,20 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.example.liveactivitytimer",
+      "deploymentTarget": "16.1",
+      "appleTeamId": "B3F5VULGBR",
+      "infoPlist": {
+        "NSSupportsLiveActivities": true,
+        "NSSupportsLiveActivitiesFrequentUpdates": true
+      },
+      "entitlements":
+        {
+          "com.apple.security.application-groups": [
+            "group.com.example.liveactivitytimer"
+          ]
+        }
     },
     "android": {
       "adaptiveIcon": {
@@ -24,6 +37,17 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "@bacons/apple-targets",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "deploymentTarget": "16.1"
+          }
+        }
+      ]
+    ]
   }
 }

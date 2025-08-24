@@ -1,0 +1,7 @@
+{
+  "name": "@app/live-activity",
+  "platforms": ["ios"],
+  "ios": {
+    "modules": ["LiveActivityModule"]
+  }
+}
