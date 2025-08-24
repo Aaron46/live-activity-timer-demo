@@ -119,6 +119,28 @@ func areLiveActivitiesEnabled() -> Bool {
 - Ensure your module is detected: `npx expo-modules-autolinking verify --platform ios`
 - After pods install, `ExpoModulesProvider.swift` (under `ios/Pods/...`) should include your module.
 
+## EAS reproducibility
+- __Why__: EAS Build runs `expo prebuild` on clean machines. Manual edits under `ios/` are discarded unless expressed via config plugins.
+- __Do this in `app.json` (plugins block)__ to enforce iOS 16.1 and create the widget target on every prebuild:
+```json
+"plugins": [
+  "@bacons/apple-targets",
+  [
+    "expo-build-properties",
+    {
+      "ios": {
+        "deploymentTarget": "16.1"
+      }
+    }
+  ]
+]
+```
+- Keep Live Activities keys in `ios.infoPlist` and the App Group in `ios.entitlements` so they’re regenerated consistently.
+- __Verify from scratch__ locally:
+  - `npm ci` (or `npm install`)
+  - `npx expo prebuild -p ios --clean`
+  - `npx expo run:ios`
+
 ## Common pitfalls
 - Mixed deployment targets (< 16.1) between Podfile and Xcode targets.
 - Forgetting to `pod install` or rebuild the dev client after native changes.
@@ -132,5 +154,6 @@ func areLiveActivitiesEnabled() -> Bool {
 - [ ] App Group entitlement shared across app and widget
 - [ ] Native module (Expo Module) with ActivityKit APIs in Swift
 - [ ] Widget target implemented and signed
+- [ ] Plugins include `@bacons/apple-targets` and `expo-build-properties` (iOS 16.1 enforced at prebuild)
 - [ ] `pod install` then `npx expo run:ios`
 - [ ] Test on a real device; verify Lock Screen/Dynamic Island
